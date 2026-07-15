@@ -36,12 +36,14 @@ import { SupplierResult } from './models';
 
       <!-- Boş / hata durumları -->
       <ng-template #empty>
-        <p class="status" *ngIf="supplier.success">
-          {{ supplier.note || 'Bu CAS için ürün bulunamadı.' }}
+        <p class="status" [class.status--error]="!supplier.success">
+          {{ supplier.success
+              ? (supplier.note || 'Bu CAS için ürün bulunamadı.')
+              : 'Bu tedarikçiye şu an ulaşılamadı.' }}
         </p>
-        <p class="status status--error" *ngIf="!supplier.success">
-          Bağlantı hatası — “Sitede aç” ile sonuçları doğrudan görebilirsiniz.
-        </p>
+        <a class="cta" [href]="supplier.searchUrl" target="_blank" rel="noopener">
+          {{ supplier.supplier }} sitesinde bu CAS'i aç →
+        </a>
       </ng-template>
 
       <p class="count" *ngIf="supplier.products.length">
@@ -66,6 +68,9 @@ import { SupplierResult } from './models';
     .price { font-size:.8rem; font-weight:700; color:#047857; margin-left:auto; }
     .status { font-size:.85rem; color:#64748b; margin:4px 0 0; }
     .status--error { color:#b45309; }
+    .cta { display:inline-block; margin-top:10px; padding:8px 14px; font-size:.82rem; font-weight:600;
+      color:#2563eb; background:#f0f5ff; border:1px solid #dbe4ff; border-radius:9px; text-decoration:none; }
+    .cta:hover { background:#e2ecff; }
     .count { font-size:.72rem; color:#94a3b8; margin:10px 0 0; text-align:right; }
   `],
 })
