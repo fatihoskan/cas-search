@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "angular",
+  "outputDirectory": "dist/frontend/browser",
+  "functions": {
+    "api/search.js": { "maxDuration": 30 }
+  }
+}

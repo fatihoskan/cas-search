@@ -1,0 +1,42 @@
+<div class="wrap">
+  <div class="hero">
+    <h1>CAS Numarası Arama</h1>
+    <p>Bir CAS numarası girin; Beyotime, Aladdin, BLD Pharm ve Macklin'de aransın.</p>
+  </div>
+
+  <form class="searchbar" (ngSubmit)="search()">
+    <input
+      type="text"
+      name="cas"
+      placeholder="Örn. 67-68-5"
+      [(ngModel)]="cas"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button type="submit" [disabled]="loading()">
+      {{ loading() ? 'Aranıyor…' : 'Ara' }}
+    </button>
+  </form>
+  <p class="hint">Biçim: 2–7 hane “-” 2 hane “-” 1 hane (örn. 108-88-3, 64-17-5)</p>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (loading()) {
+    <div class="spinner">Tedarikçilerde aranıyor…</div>
+  }
+
+  @if (result(); as res) {
+    <p class="summary">
+      <strong>{{ res.cas }}</strong> için toplam <strong>{{ res.totalProducts }}</strong> ürün bulundu.
+    </p>
+    <div class="results">
+      @for (s of res.suppliers; track s.supplier) {
+        <app-supplier-card [supplier]="s"></app-supplier-card>
+      }
+    </div>
+  }
+
+  <p class="footer">CAS Search · .NET backend + Angular frontend</p>
+</div>
